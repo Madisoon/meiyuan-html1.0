@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../spm_modules/bootstrap-3.3.0-dist/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../header.css" rel="stylesheet" type="text/css">
+    <link href="../../spm_modules/datepicker/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <script src="../../spm_modules/jquery/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="../../spm_modules/datepicker/jquery.datetimepicker.full.min.js" type="text/javascript"></script>
+    <script src="../../spm_modules/layer/layer.js" type="text/javascript"></script>
+    <script src="../../spm_modules/seajs-3.0.0/dist/sea.js" type="text/javascript"></script>
+    <title>美原-少儿图书</title>
+    <style>
+        .book-manage {
+            padding: 8px;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .gn-title {
+            background: #E4E4E4;
+            font-size: 12px;
+            padding: 4px 0 4px 20px;
+            margin-bottom: 4px;
+        }
+
+        .glyphicon-remove.remove {
+            line-height: 32px;
+        }
+
+        .all-stripe {
+            width: 90%;
+            margin-left: 10%;
+        }
+
+        .label.library {
+            margin-left: 8px;
+        }
+
+        .book-img {
+            width: 100px;
+            height: 150px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="book-manage">
+    <!--<button type="button" class="btn btn-primary" id="search-book">查询书籍</button>-->
+    <div id="search-book-dialog" class="dialog-context-width"> <!--style="display: none"-->
+        <div class="dialog-context-show">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">条形码</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control book-isbn" placeholder="条形码">
+                    </div>
+                    <button type="button" class="btn btn-primary">查询条形码</button>
+                    <!--<button type="button" class="btn btn-success" id="add-book-library">新增书籍</button>-->
+                </div>
+                <!--<div class="form-group library-id" style="display: none">
+                    <label class="col-sm-1 control-label">图书条纹</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control book-library" placeholder="图书条纹">
+                    </div>
+                    <span class="glyphicon glyphicon-remove span-icon-cursor span-red remove"></span>
+                </div>-->
+
+
+                <div class="gn-title">书籍信息</div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">书籍条形码</label>
+                    <div class="col-sm-11" id="all-stripe">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">书名</label>
+                    <div class="col-sm-1">
+                        <img src="../img/head.jpg" class="book-img" alt="">
+                        <!-- <input type="text" class="form-control name" placeholder="书名">-->
+                    </div>
+                    <label class="col-sm-1 control-label">书名</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control name" placeholder="书名">
+                    </div>
+                    <label class="col-sm-1 control-label">ISBN13</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control iSBN13" placeholder="ISBN13">
+                    </div>
+                    <label class="col-sm-1 control-label">ISBN10</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control iSBN10" placeholder="ISBN10">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">作者</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control author" placeholder="作者">
+                    </div>
+                    <label class="col-sm-1 control-label">页数</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control pages" placeholder="页数">
+                    </div>
+                    <label class="col-sm-1 control-label">总字数</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control wordCount" placeholder="总字数">
+                    </div>
+                    <label class="col-sm-1 control-label">重量</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control weight" placeholder="重量">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">适读年龄从</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control ageStart" placeholder="适读年龄从">
+                    </div>
+                    <label class="col-sm-1 control-label">到</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control ageStop" placeholder="到">
+                    </div>
+                    <label class="col-sm-1 control-label">适读年级从</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control gradeStart" placeholder="适读年级从">
+                    </div>
+                    <label class="col-sm-1 control-label">到</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control gradeStop" placeholder="到">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">系列</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control series" placeholder="系列">
+                    </div>
+                    <label class="col-sm-1 control-label">文档类型</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control docType" placeholder="文档类型">
+                    </div>
+                    <label class="col-sm-1 control-label">书籍类型</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control bookType" placeholder="书籍类型">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">出版年</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control pubYear" placeholder="出版年">
+                    </div>
+                    <label class="col-sm-1 control-label">出版社</label>
+                    <div class="col-sm-5">
+                        <input type="text" class="form-control pubLisher" placeholder="出版社">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">总数量</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control count" placeholder="总数量">
+                    </div>
+                    <label class="col-sm-1 control-label">尺寸</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control diamension" placeholder="尺寸">
+                    </div>
+                    <label class="col-sm-1 control-label">在库数量</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control stock" placeholder="在库数量">
+                    </div>
+                    <label class="col-sm-1 control-label">书架号</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control bookShelf" placeholder="书架号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">内容简介</label>
+                    <div class="col-sm-5">
+                        <textarea class="form-control introduction" rows="3"></textarea>
+                    </div>
+                    <label class="col-sm-1 control-label">内容简介</label>
+                    <div class="col-sm-5">
+                        <textarea class="form-control topic" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">书评1</label>
+                    <div class="col-sm-3">
+                        <textarea class="form-control review1" rows="3"></textarea>
+                    </div>
+                    <label class="col-sm-1 control-label">书评2</label>
+                    <div class="col-sm-3">
+                        <textarea class="form-control review2" rows="3"></textarea>
+                    </div>
+                    <label class="col-sm-1 control-label">所获奖项</label>
+                    <div class="col-sm-3">
+                        <textarea class="form-control awards" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">阅读分值</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control arpoints" placeholder="阅读分值">
+                    </div>
+                    <label class="col-sm-1 control-label">评分等级</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control arrating" placeholder="评分等级">
+                    </div>
+                    <label class="col-sm-1 control-label">测试号</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control quizNo" placeholder="测试号">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">语音提示</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control rvquiz" placeholder="语音提示">
+                    </div>
+                    <label class="col-sm-1 control-label">词汇练习</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control vpquiz" placeholder="词汇练习">
+                    </div>
+                    <label class="col-sm-1 control-label">文学类型</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control lsquiz" placeholder="文学类型">
+                    </div>
+                    <label class="col-sm-1 control-label">题目数量</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control questionNo" placeholder="题目数量">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">BL等级</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control bl" placeholder="BL等级">
+                    </div>
+                    <label class="col-sm-1 control-label">兴趣等级</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control il" placeholder="兴趣等级">
+                    </div>
+                    <label class="col-sm-1 control-label">蓝思等级</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control lexileCombined" placeholder="蓝思等级">
+                    </div>
+                    <label class="col-sm-1 control-label">推荐指数</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control recommendIndex" placeholder="推荐指数">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-1 control-label">内部使用</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control artag" placeholder="内部使用">
+                    </div>
+                    <label class="col-sm-1 control-label">内部使用</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control lexileTag" placeholder="内部使用">
+                    </div>
+                    <label class="col-sm-1 control-label">内部使用</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control lexileCode" placeholder="内部使用">
+                    </div>
+                    <label class="col-sm-1 control-label">内部使用</label>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control lexileValue" placeholder="内部使用">
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="absolute-dialog-action">
+            <button type="button" class="btn btn-primary" id="post-scheme-btn">确认</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    seajs.use('./bookmanage.js')
+</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../../spm_modules/bootstrap-3.3.0-dist/dist/css/bootstrap.min.css">
+    <link href="../header.css" rel="stylesheet" type="text/css">
+    <link href="../../spm_modules/datepicker/jquery.datetimepicker.min.css" rel="stylesheet" type="text/css">
+    <script src="../../spm_modules/jquery/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="../../spm_modules/jquery/jquery.cookie.js" type="text/javascript"></script>
+    <script src="../../spm_modules/datepicker/jquery.datetimepicker.full.min.js" type="text/javascript"></script>
+    <script src="../../spm_modules/layer/layer.js" type="text/javascript"></script>
+    <script src="../../spm_modules/seajs-3.0.0/dist/sea.js" type="text/javascript"></script>
+    <style>
+        .vip-manage-html {
+            padding: 8px;
+        }
+
+        .vip-info {
+            display: flex;
+            flex-direction: row;
+            height: 100%;
+        }
+
+        .vip-info .title {
+            flex: 0 0 30%;
+            height: 100%;
+        }
+
+        .vip-info .borrow {
+            flex: 1;
+            height: 100%;
+        }
+
+        /*        .vip-info .people {
+                    flex: 1;
+                }
+
+                .vip-info .borrow {
+                    flex: 1;
+                }
+
+                .vip-info .destine {
+                    flex: 1;
+                }
+
+                .vip-info .collect {
+                    flex: 1;
+                }*/
+
+        h5 {
+            text-align: center;
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        ul, menu, dir {
+            -webkit-padding-start: 0px;
+        }
+
+        ul li {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            text-align: center;
+        }
+
+        .borrow-show {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .book-item {
+            width: 23.6%;
+            height: 180px;
+            margin-left: 2%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f6f2;
+        }
+
+        .gn-title {
+            background: #E4E4E4;
+            font-size: 12px;
+            padding: 4px 0 4px 20px;
+            margin-bottom: 4px;
+        }
+
+        .vip-borrow li {
+            height: 40px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        .vip-borrow li span {
+            line-height: 30px;
+        }
+
+        .vip-borrow li:hover {
+            background-color: #F6F6F6;
+        }
+
+        .vip-destine li {
+            height: 40px;
+            padding-left: 25px;
+            padding-right: 25px;
+        }
+
+        .vip-destine li span {
+            line-height: 30px;
+        }
+
+        .vip-destine li:hover {
+            background-color: #F6F6F6;
+        }
+
+        #vip-manage-dialog {
+            max-height: 100% !important;
+            width: 100%;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div id="vip-manage-dialog" class="dialog-context-width">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">条形码/手机会员号</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control vip-number" placeholder="条形码/手机会员号">
+        </div>
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-primary" id="search-vipuser">查询</button>
+        </div>
+    </div>
+    <form class="form-horizontal">
+        <div class="gn-title">书籍信息</div>
+        <div class="vip-info">
+            <div class="title people">
+                <h5>会员信息</h5>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">会员编号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control reader_id" placeholder="会员编号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">手机号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control phone_no" placeholder="手机号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">昵称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control nick_name" placeholder="昵称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">姓名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control r_name" placeholder="昵称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control r_sex" placeholder="昵称">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">读者出生日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control r_birthday" placeholder="读者出生日期">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">联系人姓名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control name" placeholder="联系人姓名">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">邮寄地址</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control address" placeholder="邮寄地址">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">邮箱地址</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control email" placeholder="邮箱地址">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">会员类型</label>
+                        <div class="col-sm-9">
+                            <select class="form-control mem_id">
+                                <option value="1">普通会员</option>
+                                <option value="2">高级会员</option>
+                                <option value="3">尊享会员</option>
+                                <option value="4">白金会员</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否缴费</label>
+                        <div class="col-sm-9">
+                            <select class="form-control paid_tag">
+                                <option value="1">是</option>
+                                <option value="0">否</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">注册日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control register_date" placeholder="注册日期">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">缴费日期</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control paid_date" placeholder="缴费日期">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">缴费备注</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control paid_info" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">会员起始日</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control mem_start" placeholder="会员起始日">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">会员终止日</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control mem_end" placeholder="会员终止日">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">AR BL值阅读范围</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control arsuggestion" placeholder="BL值阅读范围">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">蓝思值阅读范围</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control lexile_suggestion" placeholder="蓝思值阅读范围">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">阅读总本数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control r_count" placeholder="阅读总本数">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">阅读总字数</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control rw_count" placeholder="阅读总字数">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="title borrow">
+                <h5>会员已借</h5>
+                <ul class="vip-borrow">
+                </ul>
+            </div>
+            <div class="title destine">
+                <h5>会员预定</h5>
+                <ul class="vip-destine">
+                </ul>
+            </div>
+        </div>
+        <div class="absolute-dialog-action">
+            <button type="button" class="btn btn-primary" id="post-scheme-btn">借书信息提交</button>
+        </div>
+    </form>
+</div>
+
+<div id="book-case-dialog" class="dialog-context-width" style="display:  none">
+    <div class="dialog-context-show">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">书架号</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control book_case" placeholder="书架号">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">书名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control name" placeholder="书名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">条形码</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control library_id" placeholder="条形码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">isbn13</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control isbn13" placeholder="isbn13">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">isbn10</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control isbn10" placeholder="isbn10">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    seajs.use('./vipmanage.js')
+</script>
+</body>
+</html>
