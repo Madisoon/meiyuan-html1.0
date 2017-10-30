@@ -60,10 +60,6 @@ define(function (require, exports, module) {
                 });
             } else if (boosIsbn.length === 10 || boosIsbn.length === 13) {
                 bookIsbnFinial = boosIsbn;
-                /*layer.msg('书籍条形码', {
-                    time: 1500
-                });*/
-                /*emptyForm();*/
                 api.book.bookManage.getAllBookByIsbn(boosIsbn, function (rep) {
                     console.log(rep);
                     emptyForm();
@@ -89,9 +85,6 @@ define(function (require, exports, module) {
                     $('#all-stripe').append('<span class="label label-success library span-icon-cursor" library-id = "' + boosIsbn + '">' + boosIsbn + '&nbsp;&nbsp;' +
                         '<span class="glyphicon glyphicon-remove"></span></span>');
                 }
-                /*layer.msg('会员号条形码', {
-                    time: 1500
-                });*/
             } else {
                 layer.msg('条形码错误', {
                     time: 1500

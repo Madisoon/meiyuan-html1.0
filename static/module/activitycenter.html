@@ -12,10 +12,49 @@
     <script src="../../spm_modules/ueditor/ueditor.all.min.js"></script>
     <script src="../../spm_modules/ueditor/lang/zh-cn/zh-cn.js"></script>
     <title>美原-活动中心</title>
+    <style>
+        .activity-center-html {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 8px;
+        }
+
+        .left-nav {
+            width: 18%;
+        }
+
+        .right-content {
+            width: 80%;
+            margin-left: 2%;
+        }
+
+        .left-nav li {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div id="editor" style="width: 100%">
+<div class="activity-center-html">
+    <div class="left-nav">
+        <div class="list-group">
+            <a href="#" class="list-group-item">活动中心</a>
+            <a href="#" class="list-group-item">知识分享</a>
+            <a href="#" class="list-group-item">加入我们</a>
+            <a href="#" class="list-group-item">关于我们</a>
+        </div>
+    </div>
+    <div class="right-content">
+        <div class="table">
+            <table class="table table-condensed" id="table-news-show"></table>
+        </div>
+    </div>
 </div>
+<!--<div id="editor" style="width: 100%">
+</div>-->
+<script>
+    seajs.use('./activitycenter.js')
+</script>
 <script>
     var ue = UE.getEditor('editor');
 </script>

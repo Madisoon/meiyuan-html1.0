@@ -227,26 +227,25 @@ define(function (require, exports, module) {
         }
     });
 
-
-    /*    api.book.bookManage.getBookStockInfo(/!*$(this).attr('data-book-id')*!/'67', function (rep) {
-            console.log(rep);
-        });*/
-
     $('.vip-destine').on('click', 'span', function () {
         api.book.bookManage.getBookStockInfo($(this).attr('data-book-id'), function (rep) {
-            console.log('');
-            console.log(rep);
-            $('.form-control.book_case').val(rep.book_case);
-            $('.form-control.library_id').val(rep.library_id);
-            $('.form-control.isbn13').val(rep.isbn13);
-            $('.form-control.isbn10').val(rep.isbn10);
-            $('.form-control.name').val(rep.name);
-            layer.open({
-                title: '书籍信息展示',
-                type: 1,
-                area: ['42%', '55%'], //宽高
-                content: $('#book-case-dialog')
-            });
+            if (rep.result === 0) {
+                layer.msg('库存不足!', {
+                    time: 1500
+                });
+            } else {
+                $('.form-control.book_case').val(rep.book_case);
+                $('.form-control.library_id').val(rep.library_id);
+                $('.form-control.isbn13').val(rep.isbn13);
+                $('.form-control.isbn10').val(rep.isbn10);
+                $('.form-control.book.name').val(rep.name);
+                layer.open({
+                    title: '书籍信息展示',
+                    type: 1,
+                    area: ['42%', '55%'], //宽高
+                    content: $('#book-case-dialog')
+                });
+            }
         });
     });
 
@@ -256,7 +255,7 @@ define(function (require, exports, module) {
             $('.form-control.library_id').val(rep.library_id);
             $('.form-control.isbn13').val(rep.isbn13);
             $('.form-control.isbn10').val(rep.isbn10);
-            $('.form-control.name').val(rep.name);
+            $('.form-control.book.name').val(rep.name);
             layer.open({
                 title: '书籍信息展示',
                 type: 1,
