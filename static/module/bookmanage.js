@@ -47,7 +47,8 @@ define(function (require, exports, module) {
         lexileCode: '',
         lexileValue: '',
         lexileCombined: '',
-        recommendIndex: ''
+        recommendIndex: '',
+        audio: ''
     };
 
     $(document).keypress(function (e) {

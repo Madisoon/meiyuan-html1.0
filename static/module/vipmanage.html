@@ -117,17 +117,31 @@
             width: 100%;
             overflow-y: auto;
         }
+
+        .book-info-show {
+            display: flex;
+        }
+
+        .book-info-show .img img {
+            width: 180px;
+            height: 220px;
+        }
+
+        .book-info-show .content {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
 <div id="vip-manage-dialog" class="dialog-context-width">
     <div class="form-group">
         <label class="col-sm-2 control-label">条形码/手机会员号</label>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <input type="text" class="form-control vip-number" placeholder="条形码/手机会员号">
         </div>
-        <div class="col-sm-1">
+        <div class="col-sm-2">
             <button type="button" class="btn btn-primary" id="search-vipuser">查询</button>
+            <button type="button" class="btn btn-primary" id="post-scheme-btn">借书信息提交</button>
         </div>
     </div>
     <form class="form-horizontal">
@@ -294,46 +308,50 @@
                 </ul>
             </div>
         </div>
-        <div class="absolute-dialog-action">
-            <button type="button" class="btn btn-primary" id="post-scheme-btn">借书信息提交</button>
-        </div>
     </form>
 </div>
 
 <div id="book-case-dialog" class="dialog-context-width" style="display:  none">
     <div class="dialog-context-show">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">书架号</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control book_case" placeholder="书架号">
-                </div>
+        <div class="book-info-show">
+            <div class="img">
+                <img src="../img/head.jpg" alt="">
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">书名</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control name" placeholder="书名">
-                </div>
+            <div class="content">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">书架号</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control book_case" placeholder="书架号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">书名</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control name" placeholder="书名">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">条形码</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control library_id" placeholder="条形码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">isbn13</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control isbn13" placeholder="isbn13">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">isbn10</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control isbn10" placeholder="isbn10">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">条形码</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control library_id" placeholder="条形码">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">isbn13</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control isbn13" placeholder="isbn13">
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">isbn10</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control isbn10" placeholder="isbn10">
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

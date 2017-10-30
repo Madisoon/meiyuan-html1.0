@@ -56,6 +56,7 @@
                         <input type="text" class="form-control book-isbn" placeholder="条形码">
                     </div>
                     <button type="button" class="btn btn-primary">查询条形码</button>
+                    <button type="button" class="btn btn-primary" id="post-scheme-btn">确认</button>
                     <!--<button type="button" class="btn btn-success" id="add-book-library">新增书籍</button>-->
                 </div>
                 <!--<div class="form-group library-id" style="display: none">
@@ -197,16 +198,23 @@
                 </div>
                 <div class="form-group">
                     <label class="col-sm-1 control-label">阅读分值</label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <input type="text" class="form-control arpoints" placeholder="阅读分值">
                     </div>
                     <label class="col-sm-1 control-label">评分等级</label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <input type="text" class="form-control arrating" placeholder="评分等级">
                     </div>
                     <label class="col-sm-1 control-label">测试号</label>
-                    <div class="col-sm-3">
+                    <div class="col-sm-2">
                         <input type="text" class="form-control quizNo" placeholder="测试号">
+                    </div>
+                    <label class="col-sm-1 control-label">是否有音频</label>
+                    <div class="col-sm-2">
+                        <select class="form-control audio">
+                            <option value="0">否</option>
+                            <option value="1">是</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -246,28 +254,25 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-1 control-label">内部使用</label>
+                    <label class="col-sm-1 control-label">AR标签</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control artag" placeholder="内部使用">
                     </div>
-                    <label class="col-sm-1 control-label">内部使用</label>
+                    <label class="col-sm-1 control-label">蓝思标签</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control lexileTag" placeholder="内部使用">
                     </div>
-                    <label class="col-sm-1 control-label">内部使用</label>
+                    <label class="col-sm-1 control-label">蓝思代码</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control lexileCode" placeholder="内部使用">
                     </div>
-                    <label class="col-sm-1 control-label">内部使用</label>
+                    <label class="col-sm-1 control-label">蓝思值</label>
                     <div class="col-sm-2">
                         <input type="text" class="form-control lexileValue" placeholder="内部使用">
                     </div>
                 </div>
 
             </form>
-        </div>
-        <div class="absolute-dialog-action">
-            <button type="button" class="btn btn-primary" id="post-scheme-btn">确认</button>
         </div>
     </div>
 </div>
