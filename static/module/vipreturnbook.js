@@ -31,6 +31,18 @@ define(function (require, exports, module) {
     $('#post-btn').click(function () {
         api.book.bookManage.returnBook($('.form-control.library_id').val(), function (rep) {
             layer.closeAll();
+            if (rep.result) {
+                layer.msg(' 还书成功', {
+                    icon: 1,
+                    time: 1200,
+                });
+            } else {
+                layer.msg(' 还书失败', {
+                    icon: 2,
+                    time: 1200,
+                });
+            }
+
         });
     });
 

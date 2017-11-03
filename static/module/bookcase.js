@@ -10,7 +10,6 @@ define(function (require, exports, module) {
             var bookIsbn = $('.form-control.book-isbn').val();
             if (bookIsbn !== '') {
                 //还书操作
-                console.log('执行');
                 api.book.bookManage.getBookCase(bookIsbn, function (rep) {
                     console.log(rep);
                     $('.form-control.library_id').val(rep.library_id);
@@ -33,8 +32,18 @@ define(function (require, exports, module) {
     $('#post-btn').click(function () {
         api.book.bookManage.updateBookCase($('.form-control.library_id').val(),
             $('.form-control.book_case').val(), function (rep) {
-                console.log(rep);
                 layer.closeAll();
+                if (rep.result) {
+                    layer.msg(' 信息修改完成 ！', {
+                        icon: 1,
+                        time: 1200,
+                    });
+                } else {
+                    layer.msg(' 信息修改失败 ！', {
+                        icon: 2,
+                        time: 1200,
+                    });
+                }
             });
     });
 
