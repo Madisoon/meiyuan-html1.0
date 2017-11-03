@@ -64,6 +64,11 @@ define(function (require, exports, module) {
                     getDataWay(url + 'getBookStockInfo', {
                         id: id
                     }, 'GET', success)
+                },
+                insertUpdateBookNews: function (bookNewsData, success) {
+                    getDataWay(url + 'insertUpdateBookNews', {
+                        bookNewsData: bookNewsData
+                    }, 'POST', success)
                 }
 
             }

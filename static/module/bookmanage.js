@@ -150,7 +150,7 @@ define(function (require, exports, module) {
             layer.msg(' 新 建 成 功 ！', {
                 icon: 1,
                 time: 1200,
-            })
+            });
         });
     });
 });

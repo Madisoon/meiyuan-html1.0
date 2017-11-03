@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../../spm_modules/bootstrap-3.3.0-dist/dist/css/bootstrap.min.css">
-    <link href="../../header.css" rel="stylesheet" type="text/css">
+    <link href="../header.css" rel="stylesheet" type="text/css">
     <script src="../../spm_modules/jquery/jquery-3.1.1.min.js"></script>
     <script src="../../spm_modules/bootstrap-3.3.0-dist/dist/js/bootstrap.min.js"></script>
     <script src="../../spm_modules/layer/layer.js"></script>
@@ -11,6 +11,8 @@
     <script src="../../spm_modules/ueditor/ueditor.config.js"></script>
     <script src="../../spm_modules/ueditor/ueditor.all.min.js"></script>
     <script src="../../spm_modules/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="../../spm_modules/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
+    <script src="../../spm_modules/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.min.js"></script>
     <title>美原-活动中心</title>
     <style>
         .activity-center-html {
@@ -32,31 +34,51 @@
         .left-nav li {
             cursor: pointer;
         }
+
+        .table {
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body>
 <div class="activity-center-html">
     <div class="left-nav">
         <div class="list-group">
-            <a href="#" class="list-group-item">活动中心</a>
-            <a href="#" class="list-group-item">知识分享</a>
-            <a href="#" class="list-group-item">加入我们</a>
-            <a href="#" class="list-group-item">关于我们</a>
+            <a href="#" class="list-group-item active" data-activity="1">活动中心</a>
+            <a href="#" class="list-group-item" data-activity="2">知识分享</a>
+            <a href="#" class="list-group-item" data-activity="3">加入我们</a>
+            <a href="#" class="list-group-item" data-activity="4">关于我们</a>
         </div>
     </div>
     <div class="right-content">
+        <button type="button" class="btn btn-primary" id="add-news-btn">新建新闻</button>
+        <button type="button" class="btn btn-success">删除新闻</button>
         <div class="table">
             <table class="table table-condensed" id="table-news-show"></table>
         </div>
     </div>
+
+    <div id="news-add-dialog" class="dialog-context-width" style="display:  none">
+        <div class="dialog-context-show">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">新闻标题</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control news_title" placeholder="新闻标题">
+                    </div>
+                </div>
+                <div id="editor" style="width: 100%;">
+                </div>
+            </form>
+        </div>
+        <div class="absolute-dialog-action">
+            <button type="button" class="btn btn-primary" id="post-news-data">确认提交</button>
+        </div>
+    </div>
+
 </div>
-<!--<div id="editor" style="width: 100%">
-</div>-->
 <script>
     seajs.use('./activitycenter.js')
-</script>
-<script>
-    var ue = UE.getEditor('editor');
 </script>
 </body>
 </html>
