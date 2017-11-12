@@ -176,9 +176,6 @@ define(function (require, exports, module) {
                                 break;
                         }
                     });
-                    layer.msg('数据条形码', {
-                        time: 1500
-                    });
                 }
             } else if (vipNumberLen === 8 || vipNumberLen === 11) {
                 vipNumberFinal = vipNumber;
@@ -214,9 +211,6 @@ define(function (require, exports, module) {
                     }
                     $('.vip-destine').empty();
                     $('.vip-destine').append(orderDom.join(''));
-                });
-                layer.msg('会员号或者电话号码', {
-                    time: 1500
                 });
             } else {
                 layer.msg('无效条形码', {

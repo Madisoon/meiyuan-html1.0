@@ -6,4 +6,9 @@ define(function (require, exports, module) {
         $('.nav-menu a').removeClass('active');
         $(this).addClass('active');
     });
+
+    $('#user-info').unbind('click').click(function () {
+        $('.user-info-choice').fadeToggle();
+    });
+
 });

@@ -7,7 +7,7 @@ define(function (require, exports, module) {
     /* require('http://localhost:63343/service-html/spm_modules/layer/layer.js');*/
     //地址，参数（为对象），方法请求成功
     var baseUrl = 'http://127.0.0.1:8090/';
-    /*const baseUrl = 'http://121.199.4.149:8011/'*/
+    /*const baseUrl = 'http://121.43.171.195:8090/'*/
     var getDataWay = function (url, params, httpType, success) {
         //发送ajax请求
         $.ajax({

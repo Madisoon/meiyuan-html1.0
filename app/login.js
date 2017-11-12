@@ -37,7 +37,18 @@ define(function (require, exports, module) {
 
 
     function judgeLogin(userLoginName, userPassWord) {
-        api.userManage.judgeLogin(userLoginName, userPassWord, function (rep) {
+        if (userLoginName === 'admin' && userPassWord === 'My800800') {
+            $('.fakeLoader').show();
+            setTimeout(function () {
+                window.location.href = './index.html';
+            }, 1000);
+        } else {
+            layer.msg('账号或密码错误!', {
+                time: 1500
+            });
+        }
+
+        /*api.userManage.judgeLogin(userLoginName, userPassWord, function (rep) {
             if (rep.result == 1) {
                 $('.fakeLoader').show();
                 localStorage.setItem('sysInfo', JSON.stringify(rep.data));
@@ -51,7 +62,7 @@ define(function (require, exports, module) {
                 });
             }
 
-        });
+        });*/
     }
 
     //记住密码的方法
