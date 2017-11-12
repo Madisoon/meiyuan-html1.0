@@ -33,33 +33,34 @@ define(function (require, exports, module) {
     $('.r_birthday').datetimepicker({
         format: 'Y-m-d',
         timepicker: false
+
     });
     $('.register_date').datetimepicker({
         format: 'Y-m-d',
         timepicker: false
+
     });
     $('.paid_date').datetimepicker({
         format: 'Y-m-d',
         timepicker: false
     });
+
     $('.mem_start').datetimepicker({
         format: 'Y-m-d',
+        onShow: function (ct) {
+            this.setOptions({
+                maxDate: $('.mem_end').val() ? $('.mem_end').val() : false
+            })
+        },
         timepicker: false
     });
     $('.mem_end').datetimepicker({
         format: 'Y-m-d',
-        timepicker: false
-    });
-    $('.r_birthday').datetimepicker({
-        format: 'Y-m-d',
-        timepicker: false
-    });
-    $('.r_birthday').datetimepicker({
-        format: 'Y-m-d',
-        timepicker: false
-    });
-    $('.r_birthday').datetimepicker({
-        format: 'Y-m-d',
+        onShow: function (ct) {
+            this.setOptions({
+                minDate: $('.mem_start').val() ? $('.mem_start').val() : false
+            })
+        },
         timepicker: false
     });
 
@@ -130,94 +131,117 @@ define(function (require, exports, module) {
 
     // 最后点击确认的时候，需要传个人信息，同时传信息的已借书籍的id，还书的id，预定书籍的id
 
+    $('#search-vipuser').click(function () {
+        operationFunc();
+    });
 
-    $(document).keypress(function (e) {
-        if (e.charCode == 13) {
-            var vipNumber = $('.form-control.vip-number').val();
-            var vipNumberLen = vipNumber.length;
-            if (vipNumber === '') {
-                layer.msg('条形码为空', {
+    function operationFunc() {
+        var vipNumber = $('.form-control.vip-number').val();
+        var vipNumberLen = vipNumber.length;
+        if (vipNumber === '') {
+            layer.msg('条形码为空', {
+                time: 1500
+            });
+        } else if (vipNumberLen === 9) {
+            if (vipNumberFinal === '') {
+                layer.msg('请先扫描用户', {
                     time: 1500
                 });
-            } else if (vipNumberLen === 9) {
-                if (vipNumberFinal === '') {
-                    layer.msg('请先扫描用户', {
-                        time: 1500
-                    });
-                } else {
-                    api.user.userManage.vipBorrowReturn(vipNumberFinal, vipNumber, function (rep) {
-                        console.log(rep);
-                        var bookInfo = rep.book;
-                        switch (rep.result) {
-                            case "1":
-                                // 借这本书，但没有预定
+            } else {
+                api.user.userManage.vipBorrowReturn(vipNumberFinal, vipNumber, function (rep) {
+                    console.log(rep);
+                    var bookInfo = rep.book;
+                    switch (rep.result) {
+                        case "1":
+                            // 借这本书，但没有预定
+                            var flag = 1;
+                            $('.vip-borrow span').each(function () {
+                                if ($(this).attr('data-library-id') === vipNumber) {
+                                    flag = 0;
+                                }
+                            });
+                            if (flag) {
                                 $('.vip-borrow').append('<li>' +
                                     '<span class="span-icon-cursor" data-library-id="' + vipNumber + '">' + bookInfo.name +
                                     '-' + bookInfo.author + '</span>' +
                                     '</li>'
                                 );
-                                break;
-                            case "2":
-                                // 借这本书，但已经预定了
+                            }
+                            break;
+                        case "2":
+                            // 借这本书，但已经预定了
+                            var flag = 1;
+                            $('.vip-borrow span').each(function () {
+                                if ($(this).attr('data-library-id') === vipNumber) {
+                                    flag = 0;
+                                }
+                            });
+                            if (flag) {
                                 $('.vip-borrow').append('<li>' +
                                     '<span class="span-icon-cursor" data-library-id="' + vipNumber + '">' + bookInfo.name +
                                     '-' + bookInfo.author + '</span>' +
                                     '</li>'
                                 );
                                 $('.vip-destine span[data-book-id=' + bookInfo.id + ']').parent().remove();
-                                break;
-                            case "3":
-                                // 还书，需要删除会员已借里面的
-                                returnBookId.push(vipNumber);
-                                console.log(returnBookId);
-                                $('.vip-borrow span[data-library-id=' + vipNumber + ']').parent().remove();
-                                break;
-                            default:
-                                break;
-                        }
-                    });
-                }
-            } else if (vipNumberLen === 8 || vipNumberLen === 11) {
-                vipNumberFinal = vipNumber;
-                api.user.userManage.getUserInfo(vipNumber, function (rep) {
-                    var personInfo = rep.person;
-                    personId = personInfo.id;
-                    var stockInfo = rep.stock;
-                    var stockInfoLen = rep.stock.length;
-                    var orderInfo = rep.order;
-                    var orderInfoLen = rep.order.length;
-                    for (var objectName in userInfo) {//用javascript的for/in循环遍历对象的属性
-                        $('.form-control.' + objectName + '').val(personInfo[objectName]);
+                            }
+                            break;
+                        case "3":
+                            // 还书，需要删除会员已借里面的
+                            returnBookId.push(vipNumber);
+                            $('.vip-borrow span[data-library-id=' + vipNumber + ']').parent().remove();
+                            break;
+                        default:
+                            break;
                     }
-                    var stockDom = [];
-                    var orderDom = [];
-                    // 渲染已订书籍的dom
-                    for (var i = 0; i < stockInfoLen; i++) {
-                        stockDom.push('<li>' +
-                            '<span class="span-icon-cursor" data-library-id="' + stockInfo[i].library_id + '">' + stockInfo[i].name +
-                            '-' + stockInfo[i].author + '</span>' +
-                            '</li>'
-                        );
-                    }
-                    $('.vip-borrow').empty();
-                    $('.vip-borrow').append(stockDom.join(''));
-                    // 渲染预定书籍的dom
-                    for (var i = 0; i < orderInfoLen; i++) {
-                        orderDom.push('<li>' +
-                            '<span class="span-icon-cursor" data-book-id="' + orderInfo[i].id + '">' + orderInfo[i].name +
-                            '-' + orderInfo[i].author + '</span>' +
-                            '</li>'
-                        );
-                    }
-                    $('.vip-destine').empty();
-                    $('.vip-destine').append(orderDom.join(''));
-                });
-            } else {
-                layer.msg('无效条形码', {
-                    time: 1500
                 });
             }
-            $('.form-control.vip-number').val('');
+        } else if (vipNumberLen === 8 || vipNumberLen === 11) {
+            vipNumberFinal = vipNumber;
+            api.user.userManage.getUserInfo(vipNumber, function (rep) {
+                var personInfo = rep.person;
+                personId = personInfo.id;
+                var stockInfo = rep.stock;
+                var stockInfoLen = rep.stock.length;
+                var orderInfo = rep.order;
+                var orderInfoLen = rep.order.length;
+                for (var objectName in userInfo) {//用javascript的for/in循环遍历对象的属性
+                    $('.form-control.' + objectName + '').val(personInfo[objectName]);
+                }
+                var stockDom = [];
+                var orderDom = [];
+                // 渲染已订书籍的dom
+                for (var i = 0; i < stockInfoLen; i++) {
+                    stockDom.push('<li>' +
+                        '<span class="span-icon-cursor" data-library-id="' + stockInfo[i].library_id + '">' + stockInfo[i].name +
+                        '-' + stockInfo[i].author + '</span>' +
+                        '</li>'
+                    );
+                }
+                $('.vip-borrow').empty();
+                $('.vip-borrow').append(stockDom.join(''));
+                // 渲染预定书籍的dom
+                for (var i = 0; i < orderInfoLen; i++) {
+                    orderDom.push('<li>' +
+                        '<span class="span-icon-cursor" data-book-id="' + orderInfo[i].id + '">' + orderInfo[i].name +
+                        '-' + orderInfo[i].author + '</span>' +
+                        '</li>'
+                    );
+                }
+                $('.vip-destine').empty();
+                $('.vip-destine').append(orderDom.join(''));
+            });
+        } else {
+            layer.msg('无效条形码', {
+                time: 1500
+            });
+        }
+        $('.form-control.vip-number').val('');
+    }
+
+
+    $(document).keypress(function (e) {
+        if (e.charCode == 13) {
+            operationFunc();
         }
     });
 
