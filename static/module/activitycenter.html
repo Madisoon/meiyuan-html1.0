@@ -8,9 +8,10 @@
     <script src="../../spm_modules/bootstrap-3.3.0-dist/dist/js/bootstrap.min.js"></script>
     <script src="../../spm_modules/layer/layer.js"></script>
     <script src="../../spm_modules/seajs-3.0.0/dist/sea.js"></script>
-    <script src="../../spm_modules/ueditor/ueditor.config.js"></script>
-    <script src="../../spm_modules/ueditor/ueditor.all.min.js"></script>
-    <script src="../../spm_modules/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <!--    <script src="../../spm_modules/ueditor/ueditor.config.js"></script>
+        <script src="../../spm_modules/ueditor/ueditor.all.min.js"></script>
+        <script src="../../spm_modules/ueditor/lang/zh-cn/zh-cn.js"></script>-->
+    <script src="../../spm_modules/wangEditor-3.0.12/release/wangEditor.js"></script>
     <script src="../../spm_modules/bootstrap-table-master/dist/bootstrap-table.min.js"></script>
     <script src="../../spm_modules/bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.min.js"></script>
     <title>美原-活动中心</title>
@@ -56,7 +57,7 @@
     </div>
     <div class="right-content">
         <button type="button" class="btn btn-primary" id="add-news-btn">新建新闻</button>
-        <button type="button" class="btn btn-success">删除新闻</button>
+        <button type="button" class="btn btn-success" id="delete-news-btn">删除新闻</button>
         <div class="table">
             <table class="table table-condensed" id="table-news-show"></table>
         </div>

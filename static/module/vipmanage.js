@@ -190,6 +190,11 @@ define(function (require, exports, module) {
                             returnBookId.push(vipNumber);
                             $('.vip-borrow span[data-library-id=' + vipNumber + ']').parent().remove();
                             break;
+                        case "0":
+                            layer.msg('图书馆暂无此书！', {
+                                time: 1500
+                            });
+                            break;
                         default:
                             break;
                     }
@@ -198,37 +203,45 @@ define(function (require, exports, module) {
         } else if (vipNumberLen === 8 || vipNumberLen === 11) {
             vipNumberFinal = vipNumber;
             api.user.userManage.getUserInfo(vipNumber, function (rep) {
-                var personInfo = rep.person;
-                personId = personInfo.id;
-                var stockInfo = rep.stock;
-                var stockInfoLen = rep.stock.length;
-                var orderInfo = rep.order;
-                var orderInfoLen = rep.order.length;
-                for (var objectName in userInfo) {//用javascript的for/in循环遍历对象的属性
-                    $('.form-control.' + objectName + '').val(personInfo[objectName]);
+                console.log(rep);
+                if (rep.result) {
+                    var personInfo = rep.person;
+                    personId = personInfo.id;
+                    var stockInfo = rep.stock;
+                    var stockInfoLen = rep.stock.length;
+                    var orderInfo = rep.order;
+                    var orderInfoLen = rep.order.length;
+                    for (var objectName in userInfo) {//用javascript的for/in循环遍历对象的属性
+                        $('.form-control.' + objectName + '').val(personInfo[objectName]);
+                    }
+                    var stockDom = [];
+                    var orderDom = [];
+                    // 渲染已订书籍的dom
+                    for (var i = 0; i < stockInfoLen; i++) {
+                        stockDom.push('<li>' +
+                            '<span class="span-icon-cursor" data-library-id="' + stockInfo[i].library_id + '">' + stockInfo[i].name +
+                            '-' + stockInfo[i].author + '</span>' +
+                            '</li>'
+                        );
+                    }
+                    $('.vip-borrow').empty();
+                    $('.vip-borrow').append(stockDom.join(''));
+                    // 渲染预定书籍的dom
+                    for (var i = 0; i < orderInfoLen; i++) {
+                        orderDom.push('<li>' +
+                            '<span class="span-icon-cursor" data-book-id="' + orderInfo[i].id + '">' + orderInfo[i].name +
+                            '-' + orderInfo[i].author + '</span>' +
+                            '</li>'
+                        );
+                    }
+                    $('.vip-destine').empty();
+                    $('.vip-destine').append(orderDom.join(''));
+                }else {
+                    layer.msg('没有此用户！', {
+                        time: 1500
+                    });
                 }
-                var stockDom = [];
-                var orderDom = [];
-                // 渲染已订书籍的dom
-                for (var i = 0; i < stockInfoLen; i++) {
-                    stockDom.push('<li>' +
-                        '<span class="span-icon-cursor" data-library-id="' + stockInfo[i].library_id + '">' + stockInfo[i].name +
-                        '-' + stockInfo[i].author + '</span>' +
-                        '</li>'
-                    );
-                }
-                $('.vip-borrow').empty();
-                $('.vip-borrow').append(stockDom.join(''));
-                // 渲染预定书籍的dom
-                for (var i = 0; i < orderInfoLen; i++) {
-                    orderDom.push('<li>' +
-                        '<span class="span-icon-cursor" data-book-id="' + orderInfo[i].id + '">' + orderInfo[i].name +
-                        '-' + orderInfo[i].author + '</span>' +
-                        '</li>'
-                    );
-                }
-                $('.vip-destine').empty();
-                $('.vip-destine').append(orderDom.join(''));
+
             });
         } else {
             layer.msg('无效条形码', {

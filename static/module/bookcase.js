@@ -11,18 +11,26 @@ define(function (require, exports, module) {
             if (bookIsbn !== '') {
                 //还书操作
                 api.book.bookManage.getBookCase(bookIsbn, function (rep) {
+                    console.log("书籍的信息");
                     console.log(rep);
-                    $('.form-control.library_id').val(rep.library_id);
-                    $('.form-control.isbn13').val(rep.isbn13);
-                    $('.form-control.isbn10').val(rep.isbn10);
-                    $('.form-control.name').val(rep.name);
-                    $('.form-control.book_case').val(rep.book_case);
-                    layer.open({
-                        title: '书架信息填写',
-                        type: 1,
-                        area: ['42%', '65%'], //宽高
-                        content: $('#book-case-dialog')
-                    });
+                    if(rep.result !== 2) {
+                        $('.form-control.library_id').val(rep.library_id);
+                        $('.form-control.isbn13').val(rep.isbn13);
+                        $('.form-control.isbn10').val(rep.isbn10);
+                        $('.form-control.name').val(rep.name);
+                        $('.form-control.book_case').val(rep.book_case);
+                        layer.open({
+                            title: '书架信息填写',
+                            type: 1,
+                            area: ['42%', '65%'], //宽高
+                            content: $('#book-case-dialog')
+                        });
+                    } else {
+                        layer.msg('图书馆暂无此书！', {
+                            time: 1200,
+                        });
+                    }
+
                 });
             }
             $('.form-control.book-isbn').val('');

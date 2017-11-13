@@ -87,9 +87,8 @@ a {
 
 /*表单样式*/
 .form-group .control-label {
-  font-weight: 500;
-  font-size: .9rem;
-  color: rgba(0, 0, 0, 0.5); }
+  font-weight: 600;
+  font-size: .9rem; }
 
 label {
   font-weight: 600; }

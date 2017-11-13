@@ -51,6 +51,23 @@ define(function (require, exports, module) {
         });
     }
 
+    $('#delete-news-btn').click(function () {
+        var dataInfo = $('#table-news-show').bootstrapTable('getSelections', null);
+        var dataInfoLen = dataInfo.length;
+        var data = [];
+        if (dataInfoLen === 0) {
+            layer.msg(' 没 有 选 中 任 何 数 据 ');
+        } else {
+            for (var i = 0; i < dataInfoLen; i++) {
+                data.push(dataInfo[i].id);
+            }
+            api.book.bookManage.deleteBookNews(data.join(","), function (rep) {
+                tableInitialization();
+            });
+
+        }
+    });
+
     $('#add-news-btn').click(function () {
         dataInitialization();
         layer.open({
@@ -69,19 +86,19 @@ define(function (require, exports, module) {
     });
 
     function dataInitialization() {
-        ue.setContent('');
         $('.form-control.news_title').val('');
     }
 
-
-    var ue = UE.getEditor('editor');
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create();
 
     $('#post-news-data').click(function () {
         var newsTitle = $('.form-control.news_title').val();
         var bookNewsData = {
             news_title: newsTitle,
             news_type: dataType,
-            news_content: ue.getContent()
+            news_content: editor.txt.html()
         };
         api.book.bookManage.insertUpdateBookNews(JSON.stringify(bookNewsData), function (rep) {
             dataInitialization();

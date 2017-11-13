@@ -69,6 +69,11 @@ define(function (require, exports, module) {
                     getDataWay(url + 'insertUpdateBookNews', {
                         bookNewsData: bookNewsData
                     }, 'POST', success)
+                },
+                deleteBookNews: function (bookId, success) {
+                    getDataWay(url + 'deleteBookNews', {
+                        bookId: bookId
+                    }, 'POST', success)
                 }
 
             }
