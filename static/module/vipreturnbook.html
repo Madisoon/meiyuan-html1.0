@@ -12,7 +12,6 @@
     <style>
         .vip-return-book-html {
             padding: 8px;
-            margin-top: 8%;
         }
 
         h2 {
@@ -24,64 +23,85 @@
         }
 
         .book-info-show .img img {
-            width: 180px;
-            height: 220px;
+            width: 150px;
+            height: 200px;
         }
 
         .book-info-show .content {
             flex: 1;
         }
 
+        .form-control.search {
+            height: 40px;
+            padding-left: 38px;
+
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 13px;
+            left: 30px;
+            font-size: 16px;
+        }
+
+        #book-case-dialog {
+            margin-top: 6%;
+        }
+
     </style>
 </head>
 <body>
 <div class="vip-return-book-html">
-    <div class="form-group">
+    <!--<div class="form-group">
         <h2>美原少儿英文图书馆</h2>
-    </div>
+    </div>-->
     <div class="form-group">
         <div class="col-sm-12">
-            <input type="text" class="form-control book-isbn" placeholder="图书条形码">
+            <input type="text" class="form-control search book-isbn" placeholder="图书条形码">
+            <span class="glyphicon glyphicon-search search-icon"></span>
         </div>
     </div>
-    <div id="book-case-dialog" class="dialog-context-width" style="display:  none">
+    <div id="book-case-dialog" class="dialog-context-width">
         <div class="dialog-context-show">
             <div class="book-info-show">
                 <div class="img">
-                    <img src="../img/head.jpg" alt="">
+                    <img id="book-img" src="" alt="">
                 </div>
                 <div class="content">
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">书名</label>
-                            <div class="col-sm-9">
+                            <label class="col-sm-1 control-label">会员手机号</label>
+                            <div class="col-sm-11">
+                                <input type="text" class="form-control phone" placeholder="会员手机号" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label">书名</label>
+                            <div class="col-sm-11">
                                 <input type="text" class="form-control name" placeholder="书名" disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">条形码</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control library_id" placeholder="条形码" disabled>
+                            <label class="col-sm-1 control-label">条形码</label>
+                            <div class="col-sm-11">
+                                <input type="number" class="form-control library_id" placeholder="条形码" disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">isbn13</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control isbn13" placeholder="isbn13" disabled>
+                            <label class="col-sm-1 control-label">isbn13</label>
+                            <div class="col-sm-11">
+                                <input type="number" class="form-control isbn13" placeholder="isbn13" disabled>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">isbn10</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control isbn10" placeholder="isbn10" disabled>
+                            <label class="col-sm-1 control-label">isbn10</label>
+                            <div class="col-sm-11">
+                                <input type="number" class="form-control isbn10" placeholder="isbn10" disabled>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="absolute-dialog-action">
-            <button type="button" class="btn btn-primary" id="post-btn">确认提交</button>
         </div>
     </div>
 </div>

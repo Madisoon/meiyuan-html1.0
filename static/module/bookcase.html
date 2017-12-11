@@ -28,8 +28,21 @@
         }
 
         .book-info-show .book-img img {
-            width: 180px;
-            height: 251px;
+            width: 130px;
+            height: 200px;
+        }
+
+        .vip-return-book-html .form-control {
+            height: 40px;
+            padding-left: 38px;
+
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 13px;
+            left: 30px;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -41,6 +54,7 @@
     <div class="form-group">
         <div class="col-sm-12">
             <input type="text" class="form-control book-isbn" placeholder="图书条形码">
+            <span class="glyphicon glyphicon-search search-icon"></span>
         </div>
     </div>
 </div>
@@ -49,7 +63,7 @@
     <div class="dialog-context-show">
         <div class="book-info-show">
             <div class="book-img">
-                <img src="../img/head.jpg" alt="">
+                <img id="book-img" src="" alt="">
             </div>
             <div class="book-content">
                 <form class="form-horizontal">
@@ -62,25 +76,25 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">条形码</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control library_id" placeholder="条形码" disabled>
+                            <input type="number" class="form-control library_id" placeholder="条形码" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">isbn13</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control isbn13" placeholder="isbn13" disabled>
+                            <input type="number" class="form-control isbn13" placeholder="isbn13" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">isbn10</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control isbn10" placeholder="isbn10" disabled>
+                            <input type="number" class="form-control isbn10" placeholder="isbn10" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">书名</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control name" placeholder="书名">
+                            <input type="text" class="form-control name" placeholder="书名" disabled>
                         </div>
                     </div>
                 </form>

@@ -7,6 +7,7 @@ define(function (require, exports, module) {
     var vipNumberFinal = '';
     var personId = '';
     var returnBookId = [];
+    $('.form-control.vip-number').focus();
     var userInfo = {
         reader_id: '',
         phone_no: '',
@@ -125,6 +126,7 @@ define(function (require, exports, module) {
                     time: 1200,
                 });
                 emptyForm();
+                $('.form-control.vip-number').focus();
             });
     });
 
@@ -161,11 +163,9 @@ define(function (require, exports, module) {
                                 }
                             });
                             if (flag) {
-                                $('.vip-borrow').append('<li>' +
-                                    '<span class="span-icon-cursor" data-library-id="' + vipNumber + '">' + bookInfo.name +
-                                    '-' + bookInfo.author + '</span>' +
-                                    '</li>'
-                                );
+                                $('.vip-borrow').append('<span class="label label-primary span-icon-cursor" data-library-id="' + vipNumber + '">'
+                                    + bookInfo.name +
+                                    '-' + bookInfo.author + '&nbsp;<span class="glyphicon glyphicon-remove"></span></span>');
                             }
                             break;
                         case "2":
@@ -177,10 +177,8 @@ define(function (require, exports, module) {
                                 }
                             });
                             if (flag) {
-                                $('.vip-borrow').append('<li>' +
-                                    '<span class="span-icon-cursor" data-library-id="' + vipNumber + '">' + bookInfo.name +
-                                    '-' + bookInfo.author + '</span>' +
-                                    '</li>'
+                                $('.vip-borrow').append('<span class="label label-primary span-icon-cursor" data-library-id="' + vipNumber + '">' + bookInfo.name +
+                                    '-' + bookInfo.author + '&nbsp;<span class="glyphicon glyphicon-remove"></span></span>'
                                 );
                                 $('.vip-destine span[data-book-id=' + bookInfo.id + ']').parent().remove();
                             }
@@ -218,25 +216,21 @@ define(function (require, exports, module) {
                     var orderDom = [];
                     // 渲染已订书籍的dom
                     for (var i = 0; i < stockInfoLen; i++) {
-                        stockDom.push('<li>' +
-                            '<span class="span-icon-cursor" data-library-id="' + stockInfo[i].library_id + '">' + stockInfo[i].name +
-                            '-' + stockInfo[i].author + '</span>' +
-                            '</li>'
+                        stockDom.push('<span class="label label-primary span-icon-cursor" data-library-id="' + stockInfo[i].library_id + '">' + stockInfo[i].name +
+                            '-' + stockInfo[i].author + '&nbsp;<span class="glyphicon glyphicon-remove book-remove"></span></span>'
                         );
                     }
                     $('.vip-borrow').empty();
                     $('.vip-borrow').append(stockDom.join(''));
                     // 渲染预定书籍的dom
                     for (var i = 0; i < orderInfoLen; i++) {
-                        orderDom.push('<li>' +
-                            '<span class="span-icon-cursor" data-book-id="' + orderInfo[i].id + '">' + orderInfo[i].name +
-                            '-' + orderInfo[i].author + '</span>' +
-                            '</li>'
+                        orderDom.push('<span class="label label-primary span-icon-cursor" data-book-id="' + orderInfo[i].id + '">' + orderInfo[i].name +
+                            '-' + orderInfo[i].author + '</span>'
                         );
                     }
                     $('.vip-destine').empty();
                     $('.vip-destine').append(orderDom.join(''));
-                }else {
+                } else {
                     layer.msg('没有此用户！', {
                         time: 1500
                     });
@@ -251,6 +245,9 @@ define(function (require, exports, module) {
         $('.form-control.vip-number').val('');
     }
 
+    /*    $('.vip-borrow').on('click', '.label-primary', function () {
+            $(this).remove();
+        });*/
 
     $(document).keypress(function (e) {
         if (e.charCode == 13) {
@@ -258,13 +255,19 @@ define(function (require, exports, module) {
         }
     });
 
-    $('.vip-destine').on('click', 'span', function () {
+    $('.vip-borrow').on('click', '.book-remove', function (event) {
+        $(this).parent().remove();
+        event.stopPropagation();
+    });
+
+    $('.vip-destine').on('click', '.label-primary', function () {
         api.book.bookManage.getBookStockInfo($(this).attr('data-book-id'), function (rep) {
             if (rep.result === 0) {
                 layer.msg('库存不足!', {
                     time: 1500
                 });
             } else {
+                $('#book-img').prop("src", "http://106.15.90.228:8090/dummyPath/" + rep.isbn13 + "" + ".jpg");
                 $('.form-control.book_case').val(rep.book_case);
                 $('.form-control.library_id').val(rep.library_id);
                 $('.form-control.isbn13').val(rep.isbn13);
@@ -280,8 +283,9 @@ define(function (require, exports, module) {
         });
     });
 
-    $('.vip-borrow').on('click', 'span', function () {
+    $('.vip-borrow').on('click', '.label-primary', function () {
         api.book.bookManage.getBookCase($(this).attr('data-library-id'), function (rep) {
+            $('#book-img').prop("src", "http://106.15.90.228:8090/dummyPath/" + rep.isbn13 + "" + ".jpg");
             $('.form-control.book_case').val(rep.book_case);
             $('.form-control.library_id').val(rep.library_id);
             $('.form-control.isbn13').val(rep.isbn13);

@@ -39,6 +39,8 @@ define(function (require, exports, module) {
     function judgeLogin(userLoginName, userPassWord) {
         if (userLoginName === 'admin' && userPassWord === 'My800800') {
             $('.fakeLoader').show();
+            localStorage.setItem('userAccount', 'admin');
+            localStorage.setItem('userPassword', 'My800800');
             setTimeout(function () {
                 window.location.href = './index.html';
             }, 1000);

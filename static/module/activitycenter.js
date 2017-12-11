@@ -6,6 +6,13 @@ define(function (require, exports, module) {
     var api = require('../../static/common/js/api');
     var dataType = '1';
     tableInitialization();
+    var operationType = 1;
+    var newId = '';
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.customConfig.pasteFilterStyle = false;
+    editor.customConfig.uploadImgServer = 'http://121.43.171.195:8090/guidance/uploadOrderFile';
+    editor.create();
 
     function tableInitialization() {
         $('#table-news-show').bootstrapTable('destroy');
@@ -45,6 +52,7 @@ define(function (require, exports, module) {
                 return param;
             },
             onClickRow: function (row) {
+                dataInitialization(row);
             },
             onLoadSuccess: function (data) {
             }
@@ -56,7 +64,7 @@ define(function (require, exports, module) {
         var dataInfoLen = dataInfo.length;
         var data = [];
         if (dataInfoLen === 0) {
-            layer.msg(' 没 有 选 中 任 何 数 据 ');
+            layer.msg('没有选中任何数据');
         } else {
             for (var i = 0; i < dataInfoLen; i++) {
                 data.push(dataInfo[i].id);
@@ -69,13 +77,7 @@ define(function (require, exports, module) {
     });
 
     $('#add-news-btn').click(function () {
-        dataInitialization();
-        layer.open({
-            title: '新闻展示',
-            type: 1,
-            area: ['70%', '94%'], //宽高
-            content: $('#news-add-dialog')
-        });
+        dataInitialization('');
     });
 
     $('.list-group').on('click', '.list-group-item', function () {
@@ -85,13 +87,24 @@ define(function (require, exports, module) {
         tableInitialization();
     });
 
-    function dataInitialization() {
-        $('.form-control.news_title').val('');
+    function dataInitialization(row) {
+        layer.open({
+            title: '新闻展示',
+            type: 1,
+            area: ['70%', '94%'], //宽高
+            content: $('#news-add-dialog')
+        });
+        if (row === '') {
+            operationType = 1;
+            $('.form-control.news_title').val('');
+            editor.txt.html('');
+        } else {
+            operationType = 0;
+            newId = row.id;
+            $('.form-control.news_title').val(row.news_title);
+            editor.txt.html(row.news_content);
+        }
     }
-
-    var E = window.wangEditor;
-    var editor = new E('#editor');
-    editor.create();
 
     $('#post-news-data').click(function () {
         var newsTitle = $('.form-control.news_title').val();
@@ -100,17 +113,19 @@ define(function (require, exports, module) {
             news_type: dataType,
             news_content: editor.txt.html()
         };
+        if (!operationType) {
+            bookNewsData.id = newId;
+        }
         api.book.bookManage.insertUpdateBookNews(JSON.stringify(bookNewsData), function (rep) {
-            dataInitialization();
             tableInitialization();
             layer.closeAll();
             if (rep) {
-                layer.msg(' 新 建 成 功 ！', {
+                layer.msg(' 成 功 ！', {
                     icon: 1,
                     time: 1200,
                 });
             } else {
-                layer.msg(' 新 建 失 败 ！', {
+                layer.msg('失 败 ！', {
                     icon: 2,
                     time: 1200,
                 });

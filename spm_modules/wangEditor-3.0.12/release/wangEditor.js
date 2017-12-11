@@ -564,7 +564,7 @@
         // uploadImgServer: '/upload',
 
         // 自定义配置 filename
-        uploadFileName: '',
+        uploadFileName: 'myImage',
 
         // 上传图片的自定义参数
         uploadImgParams: {

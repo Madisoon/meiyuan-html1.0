@@ -11,4 +11,8 @@ define(function (require, exports, module) {
         $('.user-info-choice').fadeToggle();
     });
 
+    if (localStorage.getItem('userAccount') === null || localStorage.getItem('userAccount') === '') {
+        window.location.href = './login.html';
+    }
+
 });

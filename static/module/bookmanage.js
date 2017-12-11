@@ -27,7 +27,6 @@ define(function (require, exports, module) {
         pubLisher: '',
         count: '',
         stock: '',
-        bookShelf: '',
         introduction: '',
         topic: '',
         review1: '',
@@ -60,20 +59,27 @@ define(function (require, exports, module) {
         } else if (boosIsbn.length === 10 || boosIsbn.length === 13) {
             bookIsbnFinial = boosIsbn;
             api.book.bookManage.getAllBookByIsbn(boosIsbn, function (rep) {
-                console.log(rep);
                 emptyForm();
-                bookInfoId = rep.id;
-                var stockData = rep.stockInfo;
-                var stockDataLen = stockData.length;
-                var dom = [];
-                for (var i = 0; i < stockDataLen; i++) {
-                    dom.push('<span class="label label-success library" library-id = "' + stockData[i].libraryId + '">' + stockData[i].libraryId + '&nbsp;&nbsp;' +
-                        '<span class="glyphicon glyphicon-remove span-icon-cursor"></span></span>')
+                if (rep.id === 0) {
+                    layer.msg('抱歉图书馆暂无此书！', {
+                        time: 1500
+                    });
+                } else {
+                    bookInfoId = rep.id;
+                    var stockData = rep.stockInfo;
+                    var stockDataLen = stockData.length;
+                    var dom = [];
+                    for (var i = 0; i < stockDataLen; i++) {
+                        dom.push('<span class="label label-success library" library-id = "' + stockData[i].libraryId + '">' + stockData[i].libraryId + '&nbsp;&nbsp;' +
+                            '<span class="glyphicon glyphicon-remove span-icon-cursor"></span></span>')
+                    }
+                    $('#all-stripe').append(dom.join(''));
+                    for (var objectName in bookInfo) {//用javascript的for/in循环遍历对象的属性
+                        $('.form-control.' + objectName + '').val(rep[objectName]);
+                    }
+                    $('#book-img').prop("src", "http://106.15.90.228:8090/dummyPath/" + rep.iSBN13 + "" + ".jpg");
                 }
-                $('#all-stripe').append(dom.join(''));
-                for (var objectName in bookInfo) {//用javascript的for/in循环遍历对象的属性
-                    $('.form-control.' + objectName + '').val(rep[objectName]);
-                }
+
             });
         } else if (boosIsbn.length === 9) {
             if (bookIsbnFinial === '') {
