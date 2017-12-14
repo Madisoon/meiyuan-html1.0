@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="../../spm_modules/bootstrap-3.3.0-dist/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../header.css" rel="stylesheet" type="text/css">
+    <script src="../../spm_modules/jquery/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="../../spm_modules/jquery/jquery.form.js"></script>
+    <script src="../../spm_modules/layer/layer.js" type="text/javascript"></script>
+    <script src="../../spm_modules/seajs-3.0.0/dist/sea.js" type="text/javascript"></script>
+    <title>美原-主页图片</title>
+    <style>
+        .image-manage-html {
+            padding: 8px;
+            height: 100%;
+        }
+
+        .image-show {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .image-item {
+            height: 224px;
+            width: 200px;
+            margin-left: 28px;
+            border: 1px solid rgba(34, 36, 38, .15);
+
+        }
+
+        .image-item img {
+            height: 180px;
+            width: 200px;
+        }
+
+        .icon-setting {
+            background-color: #f8f6f2;
+            display: flex;
+            padding: 10px;
+        }
+
+        .icon-setting span {
+            flex: 1;
+            font-size: 22px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="image-manage-html">
+    <button type="button" class="btn btn-primary add-image">新建图片</button>
+    <div class="image-show">
+
+    </div>
+    <div id="image-add-dialog" class="dialog-context-width" style="display:  none">
+        <div class="dialog-context-show">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">新闻链接</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control news-url" placeholder="新闻链接">
+                    </div>
+                </div>
+            </form>
+            <form id="taskImageUrl" class="form-horizontal" action="http://127.0.0.1:8090/book//uploadOrderImage"
+                  method="post"
+                  enctype="multipart/form-data">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">主页图片</label>
+                    <div class="col-sm-10">
+                        <input type="file" name="file" class="form-control image-url" placeholder="任务附件">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="absolute-dialog-action">
+            <button type="button" class="btn btn-primary" id="post-image-data">确认提交</button>
+        </div>
+    </div>
+</div>
+<script>
+    seajs.use('./imagemanage.js')
+</script>
+</body>
+</html>

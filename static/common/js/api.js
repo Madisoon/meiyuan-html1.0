@@ -74,6 +74,19 @@ define(function (require, exports, module) {
                     getDataWay(url + 'deleteBookNews', {
                         bookId: bookId
                     }, 'POST', success)
+                },
+                saveImageUrl: function (imageInfo, success) {
+                    getDataWay(url + 'saveImageUrl', {
+                        imageInfo: imageInfo
+                    }, 'POST', success)
+                },
+                listImageInformation: function (success) {
+                    getDataWay(url + 'listImageInformation', {}, 'GET', success)
+                },
+                removeImageInformation: function (id, success) {
+                    getDataWay(url + 'removeImageInformation', {
+                        id: id
+                    }, 'POST', success)
                 }
 
             }
