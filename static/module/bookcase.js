@@ -8,10 +8,11 @@ define(function (require, exports, module) {
     $(document).keypress(function (e) {
         if (e.charCode == 13) {
             if ($('.form-control.library_id').val() === '') {
-                var bookIsbn = $('.form-control.book-isbn').val();
+                var bookIsbn = $('.form-control.book-isbn').val().substring(1, 10);
                 if (bookIsbn !== '') {
                     //还书操作
                     api.book.bookManage.getBookCase(bookIsbn, function (rep) {
+                        alert(bookIsbn);
                         if (rep.result !== 2) {
                             $('.form-control.library_id').val(rep.library_id);
                             $('.form-control.isbn13').val(rep.isbn13);

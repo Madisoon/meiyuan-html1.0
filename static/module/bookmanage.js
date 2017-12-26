@@ -49,15 +49,20 @@ define(function (require, exports, module) {
         recommendIndex: '',
         audio: ''
     };
+    var flag = '';
 
     function operationFunc() {
         var boosIsbn = $('.form-control.book-isbn').val();
+
         if (boosIsbn === '') {
             layer.msg('条形码扫描失败', {
                 time: 1500
             });
         } else if (boosIsbn.length === 10 || boosIsbn.length === 13) {
             bookIsbnFinial = boosIsbn;
+            if (flag !== '') {
+                insertInformation();
+            }
             api.book.bookManage.getAllBookByIsbn(boosIsbn, function (rep) {
                 emptyForm();
                 if (rep.id === 0) {
@@ -81,17 +86,18 @@ define(function (require, exports, module) {
                 }
 
             });
-        } else if (boosIsbn.length === 9) {
+        } else if (boosIsbn.length === 11) {
+            flag = '1';
             if (bookIsbnFinial === '') {
                 layer.msg('抱歉请先扫描书籍', {
                     time: 1500
                 });
             } else {
-                $('#all-stripe').append('<span class="label label-success library span-icon-cursor" library-id = "' + boosIsbn + '">' + boosIsbn + '&nbsp;&nbsp;' +
+                $('#all-stripe').append('<span class="label label-success library span-icon-cursor" library-id = "' + boosIsbn.substring(1, 10) + '">' + boosIsbn.substring(1, 10) + '&nbsp;&nbsp;' +
                     '<span class="glyphicon glyphicon-remove"></span></span>');
             }
         } else {
-            layer.msg('条形码错误', {
+            layer.msg('条形码错误' + boosIsbn + '', {
                 time: 1500
             });
         }
@@ -112,41 +118,18 @@ define(function (require, exports, module) {
         $(this).remove();
     });
 
-    /* $('.form-control.book-library').change(function () {
-         var libraryId = $(this).val();
-         $('#all-stripe').append('<span class="label label-success">' + libraryId + '</span>');
-         setTimeout(function () {
-             $('.form-control.book-library').val('');
-         }, 500);
-     });*/
-
     $('.form-control.book-isbn').focus();
-    /*    $('#search-book').click(function () {
-            layer.open({
-                title: ' 图 书 管 理 ',
-                type: 1,
-                area: ['60%', '90%'], //宽高
-                shadeClose: false,
-                content: $('#search-book-dialog')
-            });
-            $('.form-control.book-isbn').focus();
-        });*/
-
-    /*    $('#add-book-library').click(function () {
-            $('.form-group.library-id').fadeIn();
-            $('.form-control.book-library').focus();
-        });*/
-
 
     function emptyForm() {
         for (var objectName in bookInfo) {//用javascript的for/in循环遍历对象的属性
             $('.form-control.' + objectName + '').val('');
         }
         $('#all-stripe').empty();
-        /* bookIsbnFinial = '';*/
+        flag = '';
     }
 
-    $('#post-scheme-btn').click(function () {
+
+    function insertInformation() {
         var postBookInfo = {};
         for (var objectName in bookInfo) {//用javascript的for/in循环遍历对象的属性
             postBookInfo[objectName] = $('.form-control.' + objectName + '').val();
@@ -161,7 +144,8 @@ define(function (require, exports, module) {
         }
         if ((postBookInfo.iSBN13 !== '' || postBookInfo.iSBN10 !== '') && postBookInfo.name !== '') {
             api.book.bookManage.insertBookInfo(JSON.stringify(postBookInfo), libraryId.join(), function (rep) {
-                emptyForm();
+                /*emptyForm();*/
+                flag = '';
                 layer.msg(' 新 建 成 功 ！', {
                     icon: 1,
                     time: 1200,
@@ -172,5 +156,9 @@ define(function (require, exports, module) {
                 time: 1500
             });
         }
+    }
+
+    $('#post-scheme-btn').click(function () {
+        insertInformation();
     });
 });
