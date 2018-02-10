@@ -7,7 +7,7 @@ define(function (require, exports, module) {
     $('.form-control.book-isbn').focus();
     $(document).keypress(function (e) {
         if (e.charCode == 13) {
-            var bookIsbn = $('.form-control.book-isbn').val().substring(1, 10);
+            var bookIsbn = $('.form-control.book-isbn').val().substring(2, 11);
             if (bookIsbn !== '') {
                 //还书操作
                 api.book.bookManage.getBookCase(bookIsbn, function (rep) {

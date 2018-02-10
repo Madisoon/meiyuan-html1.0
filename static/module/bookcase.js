@@ -8,12 +8,12 @@ define(function (require, exports, module) {
     $(document).keypress(function (e) {
         if (e.charCode == 13) {
             if ($('.form-control.library_id').val() === '') {
-                var bookIsbn = $('.form-control.book-isbn').val().substring(1, 10);
+                var bookIsbn = $('.form-control.book-isbn').val().substring(2, 11);
                 if (bookIsbn !== '') {
                     //还书操作
                     api.book.bookManage.getBookCase(bookIsbn, function (rep) {
-                        alert(bookIsbn);
                         if (rep.result !== 2) {
+                            console.log(rep)
                             $('.form-control.library_id').val(rep.library_id);
                             $('.form-control.isbn13').val(rep.isbn13);
                             $('.form-control.isbn10').val(rep.isbn10);

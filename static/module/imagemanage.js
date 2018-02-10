@@ -34,11 +34,12 @@ define(function (require, exports, module) {
 
     function getAllImage() {
         api.book.bookManage.listImageInformation(function (rep) {
+            console.log(rep);
             var repLen = rep.length;
             var domImage = [];
             for (var i = 0; i < repLen; i++) {
                 domImage.push('<div class="image-item"> ' +
-                    '            <img class="" src="http://121.43.171.195:8080/dummy-path/' + rep[i].sysImageUrl + '" alt=""> ' +
+                    '            <img class="" src="http://121.43.171.195:8080/dummyPath/' + rep[i].sysImageUrl + '" alt=""> ' +
                     '            <div class="icon-setting"> ' +
                     '                <span class="glyphicon glyphicon glyphicon-trash span-icon-cursor span-red" data-id="' + rep[i].id + '"></span> ' +
                     '                <span class="glyphicon glyphicon glyphicon-cog span-icon-cursor span-blue" ' +

@@ -7,6 +7,7 @@ define(function (require, exports, module) {
     var vipNumberFinal = '';
     var personId = '';
     var returnBookId = [];
+    var memId = 0;
     $('.form-control.vip-number').focus();
     var userInfo = {
         reader_id: '',
@@ -106,20 +107,18 @@ define(function (require, exports, module) {
             rCount: userInfoData.r_count,
             rwCount: userInfoData.rw_count
         };
-        console.log(userInfoData);
         var borrowBookId = [];
         var orderBookId = [];
-        $('.vip-borrow span').each(function () {
+        $('.vip-borrow span.label-primary').each(function () {
             borrowBookId.push($(this).attr('data-library-id'));
         });
-        $('.vip-destine span').each(function () {
+        $('.vip-destine span.label-primary').each(function () {
             orderBookId.push($(this).attr('data-book-id'));
         });
-
         api.user.userManage.postUserData(JSON.stringify(userInfoObject),
-            returnBookId.join(','),
-            borrowBookId.join(','),
-            orderBookId.join(','),
+            returnBookId.join(),
+            borrowBookId.join(),
+            orderBookId.join(),
             function (rep) {
                 layer.msg(' 借 阅 完 成 ！', {
                     icon: 1,
@@ -144,67 +143,80 @@ define(function (require, exports, module) {
             layer.msg('条形码为空', {
                 time: 1500
             });
-        } else if (vipNumberLen === 9) {
+        } else if (vipNumberLen === 12) {
             if (vipNumberFinal === '') {
                 layer.msg('请先扫描用户', {
                     time: 1500
                 });
             } else {
-                api.user.userManage.vipBorrowReturn(vipNumberFinal, vipNumber, function (rep) {
-                    console.log(rep);
-                    var bookInfo = rep.book;
-                    switch (rep.result) {
-                        case "1":
-                            // 借这本书，但没有预定
-                            var flag = 1;
-                            $('.vip-borrow span').each(function () {
-                                if ($(this).attr('data-library-id') === vipNumber) {
-                                    flag = 0;
-                                }
-                            });
-                            if (flag) {
-                                $('.vip-borrow').append('<span class="label label-primary span-icon-cursor" data-library-id="' + vipNumber + '">'
-                                    + bookInfo.name +
-                                    '-' + bookInfo.author + '&nbsp;<span class="glyphicon glyphicon-remove"></span></span>');
-                            }
-                            break;
-                        case "2":
-                            // 借这本书，但已经预定了
-                            var flag = 1;
-                            $('.vip-borrow span').each(function () {
-                                if ($(this).attr('data-library-id') === vipNumber) {
-                                    flag = 0;
-                                }
-                            });
-                            if (flag) {
-                                $('.vip-borrow').append('<span class="label label-primary span-icon-cursor" data-library-id="' + vipNumber + '">' + bookInfo.name +
-                                    '-' + bookInfo.author + '&nbsp;<span class="glyphicon glyphicon-remove"></span></span>'
-                                );
-                                $('.vip-destine span[data-book-id=' + bookInfo.id + ']').parent().remove();
-                            }
-                            break;
-                        case "3":
-                            // 还书，需要删除会员已借里面的
-                            returnBookId.push(vipNumber);
-                            $('.vip-borrow span[data-library-id=' + vipNumber + ']').parent().remove();
-                            break;
-                        case "0":
-                            layer.msg('图书馆暂无此书！', {
-                                time: 1500
-                            });
-                            break;
-                        default:
-                            break;
-                    }
+                var vipNumberSplit = vipNumber.substring(2, 11);
+                var number = 0;
+                $('.vip-borrow span.label-primary').each(function () {
+                    number++;
                 });
+                console.log(number);
+                console.log(parseInt(memId) * 5);
+                if (number >= parseInt(memId) * 5) {
+                    layer.msg('借书数量上限', {
+                        time: 1500
+                    });
+                } else {
+                    api.user.userManage.vipBorrowReturn(vipNumberFinal, vipNumberSplit, function (rep) {
+                        var bookInfo = rep.book;
+                        switch (rep.result) {
+                            case "1":
+                                // 借这本书，但没有预定
+                                var flag = 1;
+                                $('.vip-borrow span').each(function () {
+                                    if ($(this).attr('data-library-id') === vipNumberSplit) {
+                                        flag = 0;
+                                    }
+                                });
+                                if (flag) {
+                                    $('.vip-borrow').append('<span class="label label-primary span-icon-cursor" data-library-id="' + vipNumberSplit + '">'
+                                        + bookInfo.name +
+                                        '-' + bookInfo.author + '&nbsp;<span class="glyphicon glyphicon-remove"></span></span>');
+                                }
+                                break;
+                            case "2":
+                                // 借这本书，但已经预定了
+                                var flag = 1;
+                                $('.vip-borrow span').each(function () {
+                                    if ($(this).attr('data-library-id') === vipNumberSplit) {
+                                        flag = 0;
+                                    }
+                                });
+                                if (flag) {
+                                    $('.vip-borrow').append('<span class="label label-primary span-icon-cursor" data-library-id="' + vipNumberSplit + '">' + bookInfo.name +
+                                        '-' + bookInfo.author + '&nbsp;<span class="glyphicon glyphicon-remove"></span></span>'
+                                    );
+                                    $('.vip-destine span[data-book-id=' + bookInfo.id + ']').remove();
+                                }
+                                break;
+                            case "3":
+                                // 还书，需要删除会员已借里面的
+                                returnBookId.push(vipNumberSplit);
+                                $('.vip-borrow span[data-library-id=' + vipNumberSplit + ']').remove();
+                                break;
+                            case "0":
+                                layer.msg('图书馆暂无此书！', {
+                                    time: 1500
+                                });
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                }
             }
         } else if (vipNumberLen === 8 || vipNumberLen === 11) {
             vipNumberFinal = vipNumber;
             api.user.userManage.getUserInfo(vipNumber, function (rep) {
-                console.log(rep);
                 if (rep.result) {
+
                     var personInfo = rep.person;
                     personId = personInfo.id;
+                    memId = personInfo.mem_id
                     var stockInfo = rep.stock;
                     var stockInfoLen = rep.stock.length;
                     var orderInfo = rep.order;

@@ -86,14 +86,14 @@ define(function (require, exports, module) {
                 }
 
             });
-        } else if (boosIsbn.length === 11) {
+        } else if (boosIsbn.length === 12) {
             flag = '1';
             if (bookIsbnFinial === '') {
                 layer.msg('抱歉请先扫描书籍', {
                     time: 1500
                 });
             } else {
-                $('#all-stripe').append('<span class="label label-success library span-icon-cursor" library-id = "' + boosIsbn.substring(1, 10) + '">' + boosIsbn.substring(1, 10) + '&nbsp;&nbsp;' +
+                $('#all-stripe').append('<span class="label label-success library span-icon-cursor" library-id = "' + boosIsbn.substring(2, 11) + '">' + boosIsbn.substring(2, 11) + '&nbsp;&nbsp;' +
                     '<span class="glyphicon glyphicon-remove"></span></span>');
             }
         } else {
@@ -125,6 +125,7 @@ define(function (require, exports, module) {
             $('.form-control.' + objectName + '').val('');
         }
         $('#all-stripe').empty();
+        $('#book-img').prop("src", '../img/timg.jpg');
         flag = '';
     }
 
@@ -144,7 +145,6 @@ define(function (require, exports, module) {
         }
         if ((postBookInfo.iSBN13 !== '' || postBookInfo.iSBN10 !== '') && postBookInfo.name !== '') {
             api.book.bookManage.insertBookInfo(JSON.stringify(postBookInfo), libraryId.join(), function (rep) {
-                /*emptyForm();*/
                 flag = '';
                 layer.msg(' 新 建 成 功 ！', {
                     icon: 1,
